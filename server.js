@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const colors = require("colors")
-const connectDB = require("./config/db")
+const colors = require("colors");
+const bodyParser = require("body-parser");
+const connectDB = require("./config/db");
 
 //Load env variables
 dotenv.config({ path: "./config/config.env" });
@@ -11,7 +12,10 @@ const bootcamps = require('./routes/bootcamps');
 
 connectDB()
 const app = express();
-app.use('/api/v1/bootcamps',bootcamps)
+app.use('/api/v1/bootcamps', bootcamps);
+app.use(bodyParser())
+
+
 
 const PORT = process.env.PORT || 5000;
 
