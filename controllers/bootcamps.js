@@ -1,5 +1,6 @@
 const { find, findByIdAndUpdate } = require("../models/Bootcamp")
 const Bootcamp = require("../models/Bootcamp")
+const ErrorResponse = require("../utils/ErrorResponse")
 
 /*  @desc Get all bootcamps
     @route GET /api/v1/bootcamps
@@ -24,13 +25,14 @@ exports.getBootcamp = async (req, res, next) => {
     try {
         const bootcamp = await Bootcamp.findById(req.params.id)
         if (!bootcamp) {
-            return res.status(400).json({success: false})
+            return next(new ErrorResponse("Bootcamp not found", 404))
         }
         res.status(200).json(bootcamp)
 
     } catch (err) {
-        console.log(err)
-        res.status(400).json({success: false})
+        // console.log(err)
+        // res.status(400).json({success: false})
+        next(new ErrorResponse("Bootcamp not found", 404))
     }
 }
 

@@ -3,18 +3,21 @@ const dotenv = require("dotenv");
 const colors = require("colors");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
-
 //Load env variables
 dotenv.config({ path: "./config/config.env" });
-
 //Load bootcamp routes
 const bootcamps = require('./routes/bootcamps');
+//Load errorHandler middleware
+const errorHandler = require("./middleware/error")
+
+
 
 connectDB()
 const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/bootcamps', bootcamps);
+app.use(errorHandler)
 
 
 
