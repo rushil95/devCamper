@@ -4,6 +4,6 @@ geocoderOptions = {
   provider : process.env.GEOCODER_PROVIDER,
   apiKey : process.env.GEOCODER_API_KEY
 }
-const geocoder = nodeGeocoder(geocoderOptions)
 
+const geocoder = nodeGeocoder(geocoderOptions)
 module.exports = geocoder
