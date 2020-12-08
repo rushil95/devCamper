@@ -1,4 +1,5 @@
 const express = require("express");
+const courseRouter = require("./courses")
 const {
   getAllBootcamps,
   getBootcamp,
@@ -12,6 +13,8 @@ const router = express.Router();
 
 router.route("/").get(getAllBootcamps).post(createBootcamp);
 
+router.use("/:bootcampId/courses", courseRouter)
+
 router
   .route("/:id")
   .get(getBootcamp)
@@ -20,6 +23,6 @@ router
 
 router
   .route("/radius/:zipcode/:distance")
-  .get(getBootcampsWithinRadius)  
+  .get(getBootcampsWithinRadius)
 
 module.exports = router;

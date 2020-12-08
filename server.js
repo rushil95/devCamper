@@ -7,6 +7,8 @@ const connectDB = require("./config/db");
 dotenv.config({ path: "./config/config.env" });
 //Load bootcamp routes
 const bootcamps = require('./routes/bootcamps');
+//Load courses routes
+const courses = require('./routes/courses')
 //Load errorHandler middleware
 const errorHandler = require("./middleware/error")
 
@@ -17,6 +19,7 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses',courses)
 app.use(errorHandler)
 
 

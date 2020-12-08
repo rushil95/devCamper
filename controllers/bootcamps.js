@@ -1,7 +1,3 @@
-const {
-    find,
-    findByIdAndUpdate
-} = require("../models/Bootcamp");
 const Bootcamp = require("../models/Bootcamp");
 const ErrorResponse = require("../utils/ErrorResponse");
 const asyncHandler = require("../middleware/async");
