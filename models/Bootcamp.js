@@ -99,8 +99,24 @@ const BootcampSchema = new mongoose.Schema(
       type: Date,
       default: Date.now
     }
-  }
+  }, { toJSON: { virtuals: true } }
 );
+
+//Set up virtual to show courses as a virtual field in bootcamp
+BootcampSchema.virtual('courses', {
+  ref: 'Course',
+  localField: '_id',
+  foreignField: 'bootcamp',
+  justOne: false
+})
+
+//Cascade delete courses when bootcamp is deleted
+BootcampSchema.pre('remove', async function (next) {
+  console.log('Courses being removed from bootcamp')
+  const result = await this.model('Course').deleteMany({ bootcamp: this._id })
+  console.log(result)
+  next()
+})
 
 //Save slug 
 BootcampSchema.pre('save', function (next) {

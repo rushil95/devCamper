@@ -48,7 +48,7 @@ async function importData() {
 async function deleteData() {
     try {
         await Bootcamp.deleteMany()
-        await Bootcamp.deleteMany()
+        await Course.deleteMany()
         console.log('Data destroyed'.yellow)
         process.exit()
     }

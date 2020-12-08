@@ -65,7 +65,7 @@ exports.getAllBootcamps = asyncHandler(async (req, res, next) => {
     @access Public
 */
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
-    const bootcamp = await Bootcamp.findById(req.params.id);
+    const bootcamp = await Bootcamp.findById(req.params.id).populate('courses');
     if (!bootcamp) {
         return next(
             new ErrorResponse(`Resource with ID ${req.params.id} not found`, 404)
@@ -111,16 +111,17 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
     @access Private
 */
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-    const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+    const bootcamp = await Bootcamp.findById(req.params.id);
 
     if (!bootcamp) {
-        return res.status(400).json({
-            success: false,
-        });
+       return next(new ErrorResponse(`Resource with ID ${req.params.id} not found`, 404))
     }
+
+    const deletedBootcamp = await bootcamp.remove()
+
     res.status(200).json({
         success: true,
-        data: {},
+        data: deletedBootcamp,
     });
 });
 
