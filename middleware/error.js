@@ -1,7 +1,8 @@
 const ErrorResponse = require("../utils/ErrorResponse")
 
 const errorHandler = (err, req, res, next) => {
-    console.log(err.stack.red)
+    console.log(err.code, err.name)
+    console.log(err.stack.red.inverse)
     
 
     let error = { ...err }
