@@ -13,25 +13,9 @@ const {
     @access Public
 */
 exports.getAllCourses = asyncHandler(async (req, res, next) => {
-    let query;
+    
 
-    if (req.params.bootcampId) {
-        query = Course.find({
-            bootcamp: req.params.bootcampId
-        })
-    } else {
-        query = Course.find().populate({
-            path: 'bootcamp',
-            select: 'name description'
-        })
-    }
-    const courses = await query;
-
-    res.status(200).json({
-        success: true,
-        count: courses.length,
-        data: courses
-    })
+    res.status(200).json(res.advancedResult)
 })
 
 /*  @desc Get single course by id
@@ -108,7 +92,7 @@ exports.deleteCourse = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`Course with id ${courseId} not found`, 400));
     }
 
-    const deletedCourse = await course.deleteOne()
+    const deletedCourse = await course.remove()
     res.status(200).json({
         success: true,
         data: deletedCourse

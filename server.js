@@ -3,24 +3,35 @@ const dotenv = require("dotenv");
 const colors = require("colors");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
+const fileUpload = require("express-fileupload");
 //Load env variables
-dotenv.config({ path: "./config/config.env" });
+dotenv.config({
+  path: "./config/config.env"
+});
 //Load bootcamp routes
-const bootcamps = require('./routes/bootcamps');
+const bootcampsRouter = require('./routes/bootcamps');
 //Load courses routes
-const courses = require('./routes/courses')
+const coursesRouter = require('./routes/courses')
+//Load authRoutes
+const authRouter = require('./routes/auth')
 //Load errorHandler middleware
-const errorHandler = require("./middleware/error")
+const errorHandler = require("./middleware/error");
+
 
 
 
 connectDB()
 const app = express();
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use('/api/v1/bootcamps', bootcamps);
-app.use('/api/v1/courses',courses)
-app.use(errorHandler)
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+app.use(fileUpload());
+app.use(express.static('public'));
+app.use('/api/v1/bootcamps', bootcampsRouter);
+app.use('/api/v1/courses', coursesRouter);
+app.use('/api/v1/auth', authRouter)
+app.use(errorHandler);
 
 
 
@@ -36,5 +47,5 @@ const server = app.listen(
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`.red);
   // Close server and exit proccess
-  server.close( ()=> process.exit(1))
+  server.close(() => process.exit(1))
 })

@@ -74,7 +74,10 @@ const BootcampSchema = new mongoose.Schema(
       min: [1, 'Rating must be at least 1'],
       max: [10, 'Rating must can not be more than 10']
     },
-    averageCost: Number,
+    averageCost: {
+      type: Number,
+      default: 0
+    },
     photo: {
       type: String,
       default: 'no-photo.jpg'
@@ -120,6 +123,7 @@ BootcampSchema.pre('remove', async function (next) {
 
 //Save slug 
 BootcampSchema.pre('save', function (next) {
+  console.log('Pre save running')
   this.slug = slugify(this.name, {
     lower : true
   })
